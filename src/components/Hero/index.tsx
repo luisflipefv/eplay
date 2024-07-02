@@ -1,30 +1,44 @@
 import Tag from '../Tag'
 import Button from '../Button'
-import bannerImg from '../../assets/images/fundo_hogwarts.png'
 import { Banner, Infos } from './styles'
+import { Game } from '../../pages/Home'
+import { formataPreco } from '../ProductsList'
 
-const Hero = () => (
-  <Banner style={{ backgroundImage: `url(${bannerImg})` }}>
-    <div className="container">
-      <div>
-        <Tag>RPG</Tag>
-        <Tag>PS5</Tag>
+type props = {
+  game: Game
+}
+
+const Hero = ({ game }: props) => {
+  return (
+    <Banner style={{ backgroundImage: `url(${game.media.cover})` }}>
+      <div className="container">
+        <div>
+          <Tag>{game.details.category}</Tag>
+          <Tag>{game.details.system}</Tag>
+        </div>
+        <Infos>
+          <h2>{game.name}</h2>
+          <p>
+            {game.prices.discount && (
+              <span>De {formataPreco(game.prices.old)}</span>
+            )}
+            {game.prices.current && (
+              <>Por {formataPreco(game.prices.current)}</>
+            )}
+          </p>
+          {game.prices.current && (
+            <Button
+              type="button"
+              title="Clique aqui para adicionar este jogo ao carrinho"
+              variant="primary"
+            >
+              Adicionar ao carrinho
+            </Button>
+          )}
+        </Infos>
       </div>
-      <Infos>
-        <h2>Hogwarts Legacy</h2>
-        <p>
-          <span>De R$ 250,00</span> Por R$ 190.00
-        </p>
-        <Button
-          type="button"
-          title="Clique aqui para adicionar este jogo ao carrinho"
-          variant="primary"
-        >
-          Adicionar ao carrinho
-        </Button>
-      </Infos>
-    </div>
-  </Banner>
-)
+    </Banner>
+  )
+}
 
 export default Hero
